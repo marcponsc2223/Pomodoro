@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Italiana';
+}
+.marginTop{
+    margin-top: 30px;
+}
+.container {
+    margin-top: 10%;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+}
+.timer {
+    /* font-size: 122px;
+    border-radius: 150px;
+    width: 300px;
+    height: 300px;
+    background-color: #7DA7CD; */
+    transition: 0.3s;
+}
+.timer:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+
+}
+.timerText {
+    margin-top: 68px;
+}
+.charge {
+    border-radius: 20px;
+    width: 300px;
+    height: 17px;
+    /* background-color: #7DA7CD; */
+    border: 2px solid black;
+}
+.startCrono {
+    border: 0;
+    font-size: 30px;
+    border-radius: 12px;
+    width: 170px;
+    height: 80px;
+    background-color: #7DA7CD;
+    transition: 0.3s;
+}
+.startCrono:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+
+.tarjeta_caja {
+    /* margin-left: 20px; */
+    display: inline-block;
+    background-color: transparent;
+    width: 350px; 
+    height: 400px; 
+    perspective: 1000px;
+}
+.tarjetas {
+    font-size: 122px;
+    border-radius: 150px;
+    width: 300px;
+    height: 300px;
+    background-color: #7DA7CD;
+    position: relative;
+    text-align: center;
+    transition: transform 0.9s;
+    transform-style: preserve-3d;
+}
+.tarjeta_caja:hover .tarjetas {
+    cursor: pointer;
+    box-shadow: 0px 0px 1px #f8f8f8;
+} 
+.cara, .culo {
+    display: grid;
+    place-content: center;
+    position: absolute;
+    backface-visibility: hidden;
+}
+.culo {
+    /* font-size: 122px; */
+    border-radius: 150px;
+    width: 300px;
+    height: 300px;
+    background-color: #7ACE8C;
+    transition: 0.3s;
+    transform: rotateY(180deg);
+}
+.culo #contenido {
+    width: auto;
+}
