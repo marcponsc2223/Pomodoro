@@ -1,3 +1,19 @@
+@keyframes changeBG {
+    0% {
+        background-color:#ffffff;
+    }
+    100% {
+        background-color:#bfdfbf;
+    }
+}
+@keyframes changeBGReverse {
+    0% {
+        background-color:#bfdfbf;
+    }
+    100% {
+        background-color:#ffffff;
+    }
+}
 body {
     margin: 0;
     padding: 0;
