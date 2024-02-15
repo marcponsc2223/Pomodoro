@@ -5,6 +5,8 @@ let crono2IsStarted = false
 let cronoButton = document.createElement('button')
 let crono1Text = document.getElementById('timerText')
 let crono2Text = document.getElementById('contenido')
+// let draggableContainer = document.getElementById('draggableContainer')
+let draggableContainer = document.getElementsByClassName('draggableContainer')
 let bgColorGreen = 'rgb(191, 223, 191)'
 let bgColorWhite = '#ffffff'
 let pauseMode = false
@@ -14,14 +16,24 @@ let seconds
 let minutesCrono2
 let secondsCrono2
 let crono1Seconds
-let cronoSec2 
+let cronoSec2
+let element = null
+let workMakerDiv = document.getElementById('workMakerDiv')
+let buttonCreateTasks = document.getElementById('buttonCreateTasks')
+let createObjectDraggeableDiv = document.getElementById('createObjectDraggeableDiv')
+let titleCreatedDiv = document.getElementById('title')
+let descCreatedDiv = document.getElementById('desc')
+let createdObjectTitle = document.getElementById('createdObjectTitle')
+let createdObjectDesc = document.getElementById('createdObjectDesc')
+let checkBox = document.getElementsByClassName('btn-check')
+let draggableObjects = document.getElementsByClassName('draggObject')
+let form = document.getElementById('form')
 let body = document.querySelector('body')
 createCronometreButton()
 rotateCard()
 document.onclick = function (event) {
     let target = event.target
-    if (target.tagName === 'BUTTON') {
-
+    if (target.classList.contains('startCrono')) {
         if (!breakMode) {
             if (cronoButton.textContent === 'Pausar') {
                 pauseMode = true
@@ -52,11 +64,30 @@ document.onclick = function (event) {
             // // startCronoPause(5)
             // cronoButton.textContent = 'Pausar'
         }
-     }
-  };
-
-// startCrono()
-
+     } else if (target.classList.contains('createWorks')) {
+        createObjectDraggeableDiv.style.display = 'block'
+     } 
+};
+document.onmouseover = function (event) {
+    let target = event.target
+    if (target.classList.contains('workMaker')) {
+        buttonCreateTasks.style.animation = 'float 2s infinite'
+    }
+}
+form.onsubmit = function (event) {
+    event.preventDefault();
+    createObjectDraggeableDiv.style.display = 'none'
+    for (const cb of checkBox) {
+        if (cb.checked) {
+            draggableObjects.style.backgroundColor = cb.value
+        }
+        createdObjectTitle.textContent = titleCreatedDiv.value
+        createdObjectDesc.textContent = descCreatedDiv.value
+    }
+}
+workMakerDiv.onmouseleave = function () {
+    buttonCreateTasks.style.animation = ''
+}
 /** Create Cronometre Button.*/
 function createCronometreButton() {
     let divCronoButton = document.getElementById('divCrono')
@@ -152,6 +183,47 @@ function resumeCrono() {
         }, 1000); // Reanudar el intervalo
     }
 }
+/** Make the draggable div objects */
+function allowDrop(ev) {
+   ev.target.classList.add('feedme')
+    ev.preventDefault()
+}
+  
+function removeDrop(ev) {
+    ev.target.classList.remove('feedme');
+    ev.preventDefault();
+}
+  
+function drag(ev) {
+    element = ev.target
+    element.parentNode.classList.add('feedme')
+    element.classList.add('dragging')
+}
+  
+function drop(ev) {
+    ev.preventDefault()
+    ev.target.classList.remove('feedme')
+    element.classList.remove('dragging')
+    if (ev.target.classList.contains('droppable')) {
+        ev.target.appendChild(element)
+    }
+    element = null
+}
 
-
+for (const dc of draggableContainer) {
+    dc.ondrop = function (event){
+        drop(event)
+    }
+    dc.ondragover = function (event) {
+        allowDrop(event)
+    }
+    dc.ondragleave = function (event) {
+        removeDrop(event)
+    }
+}
+for (const dg of draggableObjects) {
+    dg.ondragstart = function (event) {
+        drag(event)
+    }
+}
 

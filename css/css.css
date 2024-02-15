@@ -14,7 +14,20 @@
         background-color:#ffffff;
     }
 }
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-5px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
 body {
+    overflow-y: hidden;
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
     font-family: 'Italiana';
@@ -42,9 +55,12 @@ body {
 
 }
 .timerText {
+    margin-left: 10px;
+    font-size: 120px;
     margin-top: 68px;
 }
 .charge {
+    margin-left: 59px;
     border-radius: 20px;
     width: 300px;
     height: 17px;
@@ -67,11 +83,11 @@ body {
 
 
 .tarjeta_caja {
-    /* margin-left: 20px; */
+    margin-left: 57px;
     display: inline-block;
     background-color: transparent;
-    width: 350px; 
-    height: 400px; 
+    width: 350px;
+    height: 317px;
     perspective: 1000px;
 }
 .tarjetas {
@@ -106,4 +122,127 @@ body {
 }
 .culo #contenido {
     width: auto;
+}
+.workMaker {
+    border-radius: 49px;
+    top: 0;
+    background-color: #7DA7CD;
+    height: 100%;
+    position: absolute;
+    right: -20px;
+    width: 702px;
+}
+.headerDragg{
+    left: 456px; 
+    position: absolute;
+    font-size: 30px;
+}
+.headerDragg2{
+    left: 111px;
+    position: absolute;
+    font-size: 30px;
+}
+.line {
+    right: 348px;
+    background-color: white;
+    height: 100%;
+    width: 2px;
+    position: absolute;
+}
+.draggableContainer {
+    left: 40px;
+    position: absolute;
+    top: 200px;
+    width: 234px;
+    height: 70%;
+    margin: 10px;
+    padding: 10px;
+}
+.draggableContainer2 {
+    left: 367px !important;
+}
+.draggObject {
+    background-color: green;
+    height: 280px;
+    width: 260px;
+    border-radius: 29px;
+    margin-bottom: 30px;
+}
+.draggObject:hover {
+    cursor: grab;
+}
+.createWorks {
+    width: 48px;
+    height: 40px;
+    top: 18px;
+    right: 259px;
+    position: absolute;
+    background-image: url('../img/añadir.png');
+    background-size: cover;
+    /* animation: flotating 1s infinite; */
+    /* transform: scale(1); */
+}
+.createWorks:hover {
+    cursor: pointer;
+}
+.dragging {
+    cursor: grabbing;
+}
+.createObjectDraggeableDiv {
+    right: 420px;
+    position: absolute;
+    height: 460px;
+    width: 600px;
+    background-color: #0000004a;
+    border-radius: 49px;
+    display: none;
+}
+.createDivForm {
+    font-size: 33px;
+    margin-top: 7px;
+    margin-left: 70px;
+    width: 470px;
+}
+.form-control {
+    border: 0;
+    background-color: #7DA7CD;
+}
+#lDiss, #lFront, #lBack {
+    border-radius: 12px;
+    transform: scale(1.7);
+    margin-right: 55px;
+}
+#diss:checked+.btn, #lDiss:hover {
+    color: black;
+    background-color: #9C93FE !important;
+    border: 0;
+}
+#front:checked+.btn, #lFront:hover {
+    color: black;
+    background-color: #FF8888 !important;
+    border: 0;
+}
+#back:checked+.btn, #lBack:hover {
+    color: black;
+    background-color: #FFC75A !important;
+    border: 0;
+}
+.btn {
+    transform: scale(1.4);
+    border: 0;
+    background-color: #7DA7CD;
+    color: black;
+
+}
+#createButton {
+    border-radius: 12px;
+    left: 267px;
+    position: absolute;
+    top: 376px;
+    background-color: #7DA7CD;
+    color: black;
+    transition: 0.5s;
+}
+#createButton:hover {
+    transform: scale(1.5);
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href='https://fonts.googleapis.com/css?family=Italiana' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="css/css.css">
 </head>
 <body>
@@ -21,7 +22,49 @@
         </div>
         <div class="charge marginTop" id="divCharge"></div>
         <div class="marginTop" id="divCrono"></div>
+        <div class="workMaker" id="workMakerDiv">
+            <h1>Tareas</h1>
+            <p class="headerDragg2">Pendientes</p>
+            <p class="headerDragg">En curso</p>
+            <div class="line"></div>
+            <div class="createWorks" id="buttonCreateTasks"></div>
+            <div id="draggableContainer" class="droppable draggableContainer"></div>
+            <div id="draggableContainer2" class="droppable draggableContainer draggableContainer2"></div>
+        </div>
+        <div class="draggObject" draggable="true" id="draggObject">
+            <h1 id="createdObjectTitle"></h1>
+            <p id="createdObjectDesc"></p>
+        </div>
+        <div class="draggObject" draggable="true" id="draggObject2"></div>
+        <div class="createObjectDraggeableDiv" id="createObjectDraggeableDiv">
+            <form class="createDivForm" id="form">
+                <div class="mb-3">
+                  <label for="title" class="form-label">Titulo</label>
+                  <input type="text" class="form-control" id="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="desc" class="form-label">Descripción</label>
+                    <input type="text" class="form-control" id="desc" required>
+                  </div>
+                <p class="form-label">Categorias</p>
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="diss" autocomplete="off" value="#9C93FE">
+                    <label class="btn btn-outline-primary" for="diss" id="lDiss">Diseño</label>
+                  
+                    <input type="radio" class="btn-check" name="btnradio" id="front" autocomplete="off" value="#FF8888">
+                    <label class="btn btn-outline-primary" for="front" id="lFront">Front</label>
+                  
+                    <input type="radio" class="btn-check" name="btnradio" id="back" autocomplete="off" value="#FFC75A">
+                    <label class="btn btn-outline-primary" for="back" id="lBack">Back</label>
+                </div>
+                <!-- <div class="btn btn-primary" id="createButton">Crear</div> -->
+                <button type="submit" class="btn btn-primary createButton" id="createButton">Crear</button>
+                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+
+            </form>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="js/pomodoro.js"></script>
 </body>
 </html>
