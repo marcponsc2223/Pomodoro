@@ -28,14 +28,18 @@
             <p class="headerDragg">En curso</p>
             <div class="line"></div>
             <div class="createWorks" id="buttonCreateTasks"></div>
-            <div id="draggableContainer" class="droppable draggableContainer"></div>
+            <div id="draggableContainerPendents" class="droppable draggableContainer"></div>
             <div id="draggableContainer2" class="droppable draggableContainer draggableContainer2"></div>
         </div>
-        <div class="draggObject" draggable="true" id="draggObject">
+        <div class="workMaker workMakerComplete" >
+            <p class="headerDraggCompletado">Completado</p>
+            <div class="droppable draggableContainer completedTasks" ></div>
+        </div>
+        <!-- <div class="draggObject" draggable="true" id="draggObject">
             <h1 id="createdObjectTitle"></h1>
             <p id="createdObjectDesc"></p>
-        </div>
-        <div class="draggObject" draggable="true" id="draggObject2"></div>
+        </div> -->
+        <!-- <div class="draggObject" draggable="true" id="draggObject2"></div> -->
         <div class="createObjectDraggeableDiv" id="createObjectDraggeableDiv">
             <form class="createDivForm" id="form">
                 <div class="mb-3">
@@ -60,8 +64,11 @@
                 <!-- <div class="btn btn-primary" id="createButton">Crear</div> -->
                 <button type="submit" class="btn btn-primary createButton" id="createButton">Crear</button>
                 <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-
             </form>
+        </div>
+        <div class="sureMessage" id="sureMessageID">
+            <h1>Estas seguro de que quieres borrar esta tarea?</h1>
+            <button >Borrar</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

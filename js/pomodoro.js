@@ -7,6 +7,8 @@ let crono1Text = document.getElementById('timerText')
 let crono2Text = document.getElementById('contenido')
 // let draggableContainer = document.getElementById('draggableContainer')
 let draggableContainer = document.getElementsByClassName('draggableContainer')
+let draggableObjects
+let deleteTaskButtons
 let bgColorGreen = 'rgb(191, 223, 191)'
 let bgColorWhite = '#ffffff'
 let pauseMode = false
@@ -23,14 +25,15 @@ let buttonCreateTasks = document.getElementById('buttonCreateTasks')
 let createObjectDraggeableDiv = document.getElementById('createObjectDraggeableDiv')
 let titleCreatedDiv = document.getElementById('title')
 let descCreatedDiv = document.getElementById('desc')
-let createdObjectTitle = document.getElementById('createdObjectTitle')
-let createdObjectDesc = document.getElementById('createdObjectDesc')
+let obj
+// let createdObjectTitle = document.getElementById('createdObjectTitle')
+// let createdObjectDesc = document.getElementById('createdObjectDesc')
 let checkBox = document.getElementsByClassName('btn-check')
-let draggableObjects = document.getElementsByClassName('draggObject')
 let form = document.getElementById('form')
 let body = document.querySelector('body')
 createCronometreButton()
 rotateCard()
+
 document.onclick = function (event) {
     let target = event.target
     if (target.classList.contains('startCrono')) {
@@ -66,7 +69,13 @@ document.onclick = function (event) {
         }
      } else if (target.classList.contains('createWorks')) {
         createObjectDraggeableDiv.style.display = 'block'
-     } 
+     } else if (target.classList.contains('deleteButton')) {
+            sureMessage()
+     } else if (target.classList.contains('sureMessage')) {
+            target.parentNode.remove()   
+     }
+     
+     
 };
 document.onmouseover = function (event) {
     let target = event.target
@@ -77,13 +86,28 @@ document.onmouseover = function (event) {
 form.onsubmit = function (event) {
     event.preventDefault();
     createObjectDraggeableDiv.style.display = 'none'
+    let draggableContainerPendents = document.getElementById('draggableContainerPendents')
+    obj = document.createElement('div')
+    let objTitle = document.createElement('h1')
+    let objDesc = document.createElement('p')
+    let deleteButton = document.createElement('div')
+    deleteButton.classList.add('deleteButton')
+    draggableContainerPendents.appendChild(obj)
+    obj.appendChild(objTitle)
+    obj.appendChild(objDesc)
+    obj.appendChild(deleteButton)
+    obj.classList.add('draggObject')
+    obj.draggable = true
     for (const cb of checkBox) {
         if (cb.checked) {
-            draggableObjects.style.backgroundColor = cb.value
+            obj.style.backgroundColor = cb.value
         }
-        createdObjectTitle.textContent = titleCreatedDiv.value
-        createdObjectDesc.textContent = descCreatedDiv.value
+        objTitle.textContent = titleCreatedDiv.value
+        objDesc.textContent = descCreatedDiv.value
     }
+    draggableObjects = document.getElementsByClassName('draggObject')
+    deleteTaskButtons = document.getElementsByClassName('deleteButton')
+    dragDiv()
 }
 workMakerDiv.onmouseleave = function () {
     buttonCreateTasks.style.animation = ''
@@ -185,7 +209,7 @@ function resumeCrono() {
 }
 /** Make the draggable div objects */
 function allowDrop(ev) {
-   ev.target.classList.add('feedme')
+    ev.target.classList.add('feedme')
     ev.preventDefault()
 }
   
@@ -198,6 +222,7 @@ function drag(ev) {
     element = ev.target
     element.parentNode.classList.add('feedme')
     element.classList.add('dragging')
+
 }
   
 function drop(ev) {
@@ -213,17 +238,34 @@ function drop(ev) {
 for (const dc of draggableContainer) {
     dc.ondrop = function (event){
         drop(event)
+        completedTaskComprovation()
     }
     dc.ondragover = function (event) {
         allowDrop(event)
+       
     }
     dc.ondragleave = function (event) {
         removeDrop(event)
+        
     }
 }
-for (const dg of draggableObjects) {
-    dg.ondragstart = function (event) {
-        drag(event)
+function dragDiv() {
+    for (const dg of draggableObjects) {
+        dg.ondragstart = function (event) {
+            drag(event)
+        }
+    } 
+}
+function completedTaskComprovation() {
+    for (const draggO of draggableObjects) {
+        if (draggO.parentNode.classList.contains('completedTasks')) {
+            draggO.draggable = false
+            draggO.classList.add('taskIsCompleted')
+        }  
     }
 }
-
+function sureMessage() {
+    let divSure = document.getElementById('sureMessageID')
+    divSure.style.display = 'block'
+    divSure.style.left = window.getComputedStyle.left(draggableObjects)
+}
