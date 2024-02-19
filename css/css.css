@@ -25,6 +25,25 @@
 		transform: translatey(0px);
 	}
 }
+@keyframes rotatedFailed {
+    0% {
+        /* border: 2px solid red; */
+        transform: rotateY(0deg);
+    }
+    25% {
+        transform: rotateY(10deg);
+    }
+    50% {
+        transform: rotateY(20deg);
+    }
+    75% {
+        transform: rotateY(10deg);
+    }
+    100% {
+        /* border: 0; */
+        transform: rotateY(0deg);
+    }
+}
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
@@ -44,7 +63,7 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     cursor:pointer;
-  }  
+}  
 body {
     overflow-y: hidden;
     overflow-x: hidden;
@@ -60,6 +79,17 @@ body {
     display: grid;
     justify-content: center;
     text-align: center;
+}
+.messagePomodoro {
+    width: 790px;
+    padding: 12px;
+    border-radius: 11px;
+    background-color: #a39a9a29;
+    left: 23%;
+    position: absolute;
+    top: 2%;
+    border: 3px solid #3ad93a75;
+    display: none;
 }
 .timer {
     /* font-size: 122px;
@@ -196,7 +226,8 @@ body {
     left: 62px !important;
 }
 .draggObject {
-    background-color: green;
+    color: white;
+    background-color: black;
     height: 280px;
     width: 260px;
     border-radius: 29px;
@@ -249,17 +280,17 @@ body {
     margin-right: 55px;
 }
 #diss:checked+.btn, #lDiss:hover {
-    color: black;
+    color: black !important;
     background-color: #9C93FE !important;
     border: 0;
 }
 #front:checked+.btn, #lFront:hover {
-    color: black;
+    color: black !important;
     background-color: #FF8888 !important;
     border: 0;
 }
 #back:checked+.btn, #lBack:hover {
-    color: black;
+    color: black !important;
     background-color: #FFC75A !important;
     border: 0;
 }
@@ -267,7 +298,7 @@ body {
     transform: scale(1.4);
     border: 0;
     background-color: #7DA7CD;
-    color: black;
+    color: black !important;
 
 }
 #createButton {
@@ -300,11 +331,26 @@ body {
     transform: scale(1.04);
 }
 .sureMessage {
+    border: 3px solid #ff00007a;
     border-radius: 49px;
     padding: 20px;
-    background-color: #0000004a;
+    background-color: #ffffff;
     width: 330px;
     font-size: 20px;
     position: absolute;
     display: none;
+    top: 220px;
+    left: 908px;
+}
+#deleteTask {
+    padding: 18px;
+    font-size: 18px;
+    background-color: #f51e1ea8;
+    color: white;
+    border: 0;
+    border-radius: 7px;
+    transition: 0.4s;
+}
+#deleteTask:hover {
+    transform: scale(1.04);
 }

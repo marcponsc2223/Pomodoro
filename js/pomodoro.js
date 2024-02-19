@@ -26,13 +26,19 @@ let createObjectDraggeableDiv = document.getElementById('createObjectDraggeableD
 let titleCreatedDiv = document.getElementById('title')
 let descCreatedDiv = document.getElementById('desc')
 let obj
+let deletedTaskEvent
+let run = 0
+let animaitonRotatedEnded = true
 // let createdObjectTitle = document.getElementById('createdObjectTitle')
 // let createdObjectDesc = document.getElementById('createdObjectDesc')
 let checkBox = document.getElementsByClassName('btn-check')
 let form = document.getElementById('form')
 let body = document.querySelector('body')
 createCronometreButton()
-rotateCard()
+let tarjs = document.getElementsByClassName('tarjetas')
+if (animaitonRotatedEnded) {
+    rotateCard()
+}
 
 document.onclick = function (event) {
     let target = event.target
@@ -44,10 +50,11 @@ document.onclick = function (event) {
                 console.log('estamos en pausa');
                 cronoButton.textContent = 'Iniciar'
             } else {
-                if (!cronoSarted) {
+                if (!cronoSarted || crono1Seconds <= 1) {
                     startCrono()
                 } else resumeCrono()
                 clearInterval(crono2)
+                titleText.textContent = 'Modo Cronometro'
                 cronoButton.textContent = 'Pausar'
             }
         } else {
@@ -56,6 +63,7 @@ document.onclick = function (event) {
                 clearInterval(crono2)
                 console.log('estamos en pausa');
                 cronoButton.textContent = 'Iniciar'
+
             } else {
                 if (!crono2IsStarted) {
                     startCronoPause()
@@ -68,11 +76,14 @@ document.onclick = function (event) {
             // cronoButton.textContent = 'Pausar'
         }
      } else if (target.classList.contains('createWorks')) {
-        createObjectDraggeableDiv.style.display = 'block'
+            createObjectDraggeableDiv.style.display = 'block'
      } else if (target.classList.contains('deleteButton')) {
-            sureMessage()
-     } else if (target.classList.contains('sureMessage')) {
-            target.parentNode.remove()   
+            sureMessage(event)
+            deletedTaskEvent = target.parentNode
+     } else if (target.classList.contains('deleteTask')) {
+            target.parentNode.style.display = 'none'
+            deletedTaskEvent.remove()
+            // target.classList.contains('deleteButton').remove()   
      }
      
      
@@ -121,48 +132,72 @@ function createCronometreButton() {
 }
 /** Make rotate cards.*/
 function rotateCard() {
-    let tarjs = document.getElementsByClassName('tarjetas')
-    let bgButton
     for (const tarj of tarjs) {
         tarj.addEventListener('click', function(){
-            if (window.getComputedStyle(tarj).transform === 'none') {
-                // PAUSE MODE
-                tarj.style.transform = 'rotateY(180deg)'
-                breakMode = true
-                cronoButton.style.backgroundColor = '#7ACE8C'
-                titleText.textContent = 'Modo Descanso'
-                body.style.animation = 'changeBG 1s'
-                clearInterval(crono1)
-                cronoSarted = false
-                // cronoSarted = true
-                // crono2IsStarted = true
-                cronoButton.textContent = 'Iniciar'
-            } else {
-                // CRONO MODE
-                bgButton = window.getComputedStyle(tarj).backgroundColor;
-                tarj.style.transform = 'none'
-                breakMode = false
-                cronoButton.style.backgroundColor = bgButton;
-                titleText.textContent = 'Modo Cronometro'
-                if (window.getComputedStyle(body).backgroundColor === bgColorGreen) body.style.animation = 'changeBGReverse 1s'
-                cronoButton.textContent = 'Iniciar'
-                clearInterval(crono2)
-                // crono2IsStarted = true
-                cronoSarted = true
+            if (animaitonRotatedEnded) {
+                const tarjTransform = window.getComputedStyle(tarj).transform;
+                
+                if (tarjTransform === 'none' && run >= 1) {
+                    // PAUSE MODE
+                    tarj.style.transform = 'rotateY(180deg)';
+                    breakMode = true;
+                    cronoButton.style.backgroundColor = '#7ACE8C';
+                    titleText.textContent = 'Modo Descanso';
+                    body.style.animation = 'changeBG 1s';
+                    clearInterval(crono1);
+                    cronoSarted = false;
+                    cronoButton.textContent = 'Iniciar';
+                } else if (tarjTransform === 'none') {
+                    // Display error message
+                    animaitonRotatedEnded = false;
+                    tarj.style.animation = 'rotatedFailed 0.4s';
+                    tarj.style.border = '2px solid red';
+                    titleText.textContent = 'Primero tienes que completar el primer pomodoro.';
+                } else {
+                    // CRONO MODE
+                    const bgButton = window.getComputedStyle(tarj).backgroundColor;
+                    tarj.style.transform = 'none';
+                    breakMode = false;
+                    cronoButton.style.backgroundColor = bgButton;
+                    titleText.textContent = 'Modo Cronometro';
+                    if (window.getComputedStyle(body).backgroundColor === bgColorGreen) {
+                        body.style.animation = 'changeBGReverse 1s';
+                    }
+                    cronoButton.textContent = 'Iniciar';
+                    clearInterval(crono2);
+                    cronoSarted = true;
+                }
+                console.log(breakMode);
             }
-            console.log(breakMode);
+            
         })
     }
 }
-body.addEventListener('animationend', function () {
-    if (breakMode) {
-        body.style.backgroundColor = bgColorGreen
-    } else body.style.backgroundColor = bgColorWhite
+document.addEventListener('animationend', function (event) {
+    let target = event.target
+    if (target.classList.contains('tarjetas')) {
+        for (const tarj of tarjs) {
+            tarj.style.border = '0'  
+            tarj.style.animation = ''
+            animaitonRotatedEnded = true
+        }
+    } else {
+        if (breakMode) {
+            body.style.backgroundColor = bgColorGreen
+        } else body.style.backgroundColor = bgColorWhite
+        body.style.animation = ''
+    }
 })
+// body.addEventListener('animationend', function () {
+//     if (breakMode) {
+//         body.style.backgroundColor = bgColorGreen
+//     } else body.style.backgroundColor = bgColorWhite
+// })
 /** Make the counters.*/
 function startCrono() {
     // Converter the minutes in seconds.
-    crono1Seconds = 25 * 60
+    // crono1Seconds = 25 * 60
+    crono1Seconds = 10 * 10
     cronoSarted = true
     crono1 = setInterval(() => {
         if (crono1Seconds >= 0) {
@@ -170,6 +205,9 @@ function startCrono() {
             minutes = Math.floor(crono1Seconds / 60)
             seconds = crono1Seconds % 60
             crono1Text.textContent = minutes + ':' + seconds  
+        } else {
+            run++
+            pomodoroCompletedMessage(run, true)
         }
     }, 1000);  
 }
@@ -182,6 +220,8 @@ function startCronoPause() {
             minutesCrono2 = Math.floor(cronoSec2 / 60)
             secondsCrono2 = cronoSec2 % 60
             crono2Text.textContent = minutesCrono2 + ':' + secondsCrono2 
+        } else {
+            pomodoroCompletedMessage(run, false)
         }
     }, 1000);
 }
@@ -267,5 +307,36 @@ function completedTaskComprovation() {
 function sureMessage() {
     let divSure = document.getElementById('sureMessageID')
     divSure.style.display = 'block'
-    divSure.style.left = window.getComputedStyle.left(draggableObjects)
+
+}
+/** Show the pomodoro completed messages. */
+let pomodoroCompletMessage = document.getElementById('pomodoroCompletedMessage')
+let divMessage = document.getElementById('divMessage')
+function pomodoroCompletedMessage(run, pomodoroMode) {
+    divMessage.style.display = 'block'
+    let pomodoroName
+    if (pomodoroMode) pomodoroName = 'Pomodoro'
+    else pomodoroName = 'Break Mode'
+    switch (run) {
+        case 1:
+            pomodoroCompletMessage.textContent = 'Enorabuena, primer ' + pomodoroName + ' completado.'
+            break;
+        case 2:
+            pomodoroCompletMessage.textContent = 'Enorabuena, segundo ' + pomodoroName + ' completado.'
+            break;
+        case 3:
+            pomodoroCompletMessage.textContent = 'Enorabuena, tercer ' + pomodoroName + ' completado.'
+            break;
+        case 4:
+            pomodoroCompletMessage.textContent = 'Enorabuena, cuarto ' + pomodoroName + ' completado, tienes acceso al modo pausa largo.'
+        break;
+    }
+    setTimeout(() => {
+        divMessage.style.display = 'none'
+    }, 4000);
+    clearInterval(crono1)
+    console.log(crono1);
+    // cronoButton.textContent = 'Iniciar'
+    // crono1Seconds = 25 * 60
+
 }
