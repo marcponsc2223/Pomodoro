@@ -18,7 +18,8 @@ let seconds
 let minutesCrono2
 let secondsCrono2
 let crono1Seconds
-let cronoSec2
+let cronoSec2 = 5
+let cronoSec3 = 25
 let element = null
 let workMakerDiv = document.getElementById('workMakerDiv')
 let buttonCreateTasks = document.getElementById('buttonCreateTasks')
@@ -32,7 +33,7 @@ let animaitonRotatedEnded = true
 // let createdObjectTitle = document.getElementById('createdObjectTitle')
 // let createdObjectDesc = document.getElementById('createdObjectDesc')
 let checkBox = document.getElementsByClassName('btn-check')
-let form = document.getElementById('form')
+// let form = document.getElementById('form')
 let body = document.querySelector('body')
 createCronometreButton()
 let tarjs = document.getElementsByClassName('tarjetas')
@@ -84,6 +85,10 @@ document.onclick = function (event) {
             target.parentNode.style.display = 'none'
             deletedTaskEvent.remove()
             // target.classList.contains('deleteButton').remove()   
+     } else if (target.classList.contains('exitIcon')) {
+            hideSureMessage(target)
+     } else if (target.classList.contains('settingsImg')) {
+            showConfigs()
      }
      
      
@@ -94,31 +99,42 @@ document.onmouseover = function (event) {
         buttonCreateTasks.style.animation = 'float 2s infinite'
     }
 }
-form.onsubmit = function (event) {
+/** Before the form is submided. */
+let createdWell = document.getElementById('createdWell')
+document.onsubmit = function (event) {
     event.preventDefault();
-    createObjectDraggeableDiv.style.display = 'none'
-    let draggableContainerPendents = document.getElementById('draggableContainerPendents')
-    obj = document.createElement('div')
-    let objTitle = document.createElement('h1')
-    let objDesc = document.createElement('p')
-    let deleteButton = document.createElement('div')
-    deleteButton.classList.add('deleteButton')
-    draggableContainerPendents.appendChild(obj)
-    obj.appendChild(objTitle)
-    obj.appendChild(objDesc)
-    obj.appendChild(deleteButton)
-    obj.classList.add('draggObject')
-    obj.draggable = true
-    for (const cb of checkBox) {
-        if (cb.checked) {
-            obj.style.backgroundColor = cb.value
+    let target = event.target
+    if (target.parentNode.classList.contains('createObjectDraggeableDiv')) {
+        createObjectDraggeableDiv.style.display = 'none'
+        let draggableContainerPendents = document.getElementById('draggableContainerPendents')
+        obj = document.createElement('div')
+        let objTitle = document.createElement('h1')
+        let objDesc = document.createElement('p')
+        let deleteButton = document.createElement('div')
+        deleteButton.classList.add('deleteButton')
+        draggableContainerPendents.appendChild(obj)
+        obj.appendChild(objTitle)
+        obj.appendChild(objDesc)
+        obj.appendChild(deleteButton)
+        obj.classList.add('draggObject')
+        obj.draggable = true
+        for (const cb of checkBox) {
+            if (cb.checked) {
+                obj.style.backgroundColor = cb.value
+            }
+            objTitle.textContent = titleCreatedDiv.value
+            objDesc.textContent = descCreatedDiv.value
         }
-        objTitle.textContent = titleCreatedDiv.value
-        objDesc.textContent = descCreatedDiv.value
+        draggableObjects = document.getElementsByClassName('draggObject')
+        deleteTaskButtons = document.getElementsByClassName('deleteButton')
+        dragDiv() 
+    } else {
+        showCreateWell()
+        cronoSec2 = firstBreak.value
+        cronoSec2.textContent = cronoSec2 + ':00'
+        cronoSec2 = cronoSec2 * 60
     }
-    draggableObjects = document.getElementsByClassName('draggObject')
-    deleteTaskButtons = document.getElementsByClassName('deleteButton')
-    dragDiv()
+    
 }
 workMakerDiv.onmouseleave = function () {
     buttonCreateTasks.style.animation = ''
@@ -197,7 +213,7 @@ document.addEventListener('animationend', function (event) {
 function startCrono() {
     // Converter the minutes in seconds.
     // crono1Seconds = 25 * 60
-    crono1Seconds = 10 * 10
+    crono1Seconds = 10 * 1
     cronoSarted = true
     crono1 = setInterval(() => {
         if (crono1Seconds >= 0) {
@@ -212,7 +228,7 @@ function startCrono() {
     }, 1000);  
 }
 function startCronoPause() {
-    cronoSec2 = 5 * 60
+    // cronoSec2 = 5 * 60
     crono2IsStarted = true
     crono2 = setInterval(() => {
         if (cronoSec2 >= 0) {
@@ -304,10 +320,31 @@ function completedTaskComprovation() {
         }  
     }
 }
+/** Show and hide sureMessage */
+let divSure = document.getElementById('sureMessageID')
+let divConfigMessage = document.getElementById('configWindow')
+let firstBreak = document.getElementById('short_break')
+let secondBreak = document.getElementById('large_break')
 function sureMessage() {
-    let divSure = document.getElementById('sureMessageID')
     divSure.style.display = 'block'
-
+} 
+function hideSureMessage(target) {
+    if (target.parentNode.classList.contains('window')) {
+        divSure.style.display = 'none'
+    } else {
+        divConfigMessage.style.display = 'none'
+    }
+}
+function showConfigs() {
+    divConfigMessage.style.display = 'grid'
+    firstBreak.value = cronoSec2
+    secondBreak.value = cronoSec3
+}
+function showCreateWell() {
+    createdWell.style.display = 'block'
+    setTimeout(() => {
+        createdWell.style.display = 'none'
+    }, 3000);
 }
 /** Show the pomodoro completed messages. */
 let pomodoroCompletMessage = document.getElementById('pomodoroCompletedMessage')
@@ -335,7 +372,7 @@ function pomodoroCompletedMessage(run, pomodoroMode) {
         divMessage.style.display = 'none'
     }, 4000);
     clearInterval(crono1)
-    console.log(crono1);
+    cronoButton.textContent = 'Iniciar'
     // cronoButton.textContent = 'Iniciar'
     // crono1Seconds = 25 * 60
 

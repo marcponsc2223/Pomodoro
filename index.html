@@ -67,11 +67,37 @@
             </form>
         </div>
         <div class="sureMessage" id="sureMessageID">
+            <div class="window" >
+                <img src="./img/exit.png" class="exitIcon" id="exitIcon" alt="" width="33px">
+            </div>
             <h1>Estas seguro de que quieres borrar esta tarea?</h1>
             <button id="deleteTask" class="deleteTask">Sí, eliminar ahora!</button>
+            
         </div>
         <div class="messagePomodoro" id="divMessage">
             <h1 id="pomodoroCompletedMessage"></h1>
+        </div>
+        <div class="configs">
+            <img src="./img/settings.png" class="settingsImg" id="settingsImg" alt="settings-icon.png" width="50px">
+            <div class="configWindow" id="configWindow">
+                <div class="window2">
+                    <img src="./img/exit.png" class="exitIcon" id="exitIcon2" alt="" width="33px">
+                </div>
+                <form>
+                    <div class="mb-3">
+                      <label for="title" class="form-label">Descanso corto</label>
+                      <input type="number" class="form-control" id="short_break">
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Descanso largo</label>
+                        <input type="number" class="form-control" id="large_break">
+                      </div>
+                    <!-- <div class="btn btn-primary" id="createButton">Crear</div> -->
+                    <button type="submit" class="btn btn-primary createButton" >Crear</button>
+                    <p id="createdWell">Creado correctamente</p>
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                </form>
+            </div>
         </div>
         <!-- <div id="pomodoroCompletedMessage"></div> -->
     </div>

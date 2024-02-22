@@ -271,6 +271,7 @@ body {
     width: 470px;
 }
 .form-control {
+    text-align: center;
     border: 0;
     background-color: #7DA7CD;
 }
@@ -331,6 +332,7 @@ body {
     transform: scale(1.04);
 }
 .sureMessage {
+    z-index: 1;
     border: 3px solid #ff00007a;
     border-radius: 49px;
     padding: 20px;
@@ -353,4 +355,59 @@ body {
 }
 #deleteTask:hover {
     transform: scale(1.04);
+}
+.configs {
+    top: 19.5%;
+    left: 56%;
+    position: absolute;
+    width: 60px;
+    height: 59px;
+}
+#settingsImg {
+    transition: 0.3s;
+}
+#settingsImg:hover {
+    cursor: pointer;
+    transform: scale(1.04);
+}
+.configWindow {
+
+    justify-items: center;
+    display: none;
+    background-color: white;
+    border-radius: 49px;
+    top: -158px;
+    left: -421px;
+    border: 5px solid #7DA7CD;
+    width: 410px;
+    height: 227px;
+    position: absolute;
+}
+.window, .window2 {
+    z-index: 2;
+    background-color: white;
+    border-radius: 11px;
+    border: 3px solid #ff00007a;
+    right: -22px;
+    top: -19px;
+    width: 63px;
+    height: 43px;
+    /* border: 1px solid red; */
+    position: absolute;
+    transition: 0.3s;
+}
+.window:hover, .window2:hover {
+    transform: scale(1.04);
+    cursor: pointer;
+}
+#exitIcon {
+    z-index: 0;
+}
+#createdWell {
+    display: none;
+    font-size: 20px;
+    color: #16b516;
+    left: 264px;
+    bottom: 3px;
+    position: absolute;
 }
