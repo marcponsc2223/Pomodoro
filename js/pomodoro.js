@@ -1,10 +1,16 @@
 let crono1
 let crono2
+let cronoLarge
 let cronoSarted = false
 let crono2IsStarted = false
+let cronoLargeSarted = false
+let cronoLargeSartedIsFinished = true
+let cronoLargeActive = false
 let cronoButton = document.createElement('button')
+let cronoLargeButton = document.getElementById('cronoLargeButton')
 let crono1Text = document.getElementById('timerText')
 let crono2Text = document.getElementById('contenido')
+let largeBreakTimeText = document.getElementById('largeBreakTimeText')
 // let draggableContainer = document.getElementById('draggableContainer')
 let draggableContainer = document.getElementsByClassName('draggableContainer')
 let draggableObjects
@@ -17,6 +23,8 @@ let minutes
 let seconds
 let minutesCrono2
 let secondsCrono2
+let minutesLargeCrono
+let secondsLargeCrono2
 let crono1Seconds
 let cronoSec2 = 5
 let cronoSec3 = 25
@@ -43,7 +51,7 @@ if (animaitonRotatedEnded) {
 
 document.onclick = function (event) {
     let target = event.target
-    if (target.classList.contains('startCrono')) {
+    if (target.classList.contains('startCrono') && cronoLargeSartedIsFinished) {
         if (!breakMode) {
             if (cronoButton.textContent === 'Pausar') {
                 pauseMode = true
@@ -55,6 +63,7 @@ document.onclick = function (event) {
                     startCrono()
                 } else resumeCrono()
                 clearInterval(crono2)
+                clearInterval(cronoLarge)
                 titleText.textContent = 'Modo Cronometro'
                 cronoButton.textContent = 'Pausar'
             }
@@ -70,11 +79,27 @@ document.onclick = function (event) {
                     startCronoPause()
                 } else resumeCrono()
                 clearInterval(crono1)
+                clearInterval(cronoLarge)
                 cronoButton.textContent = 'Pausar'
             }
             // clearInterval(crono1)
             // // startCronoPause(5)
             // cronoButton.textContent = 'Pausar'
+        }
+     } else if (target.classList.contains('startCronoLargeBreak') && cronoLargeActive) {
+        if (cronoLargeButton.textContent === 'Pausar') {
+            pauseMode = true
+            clearInterval(cronoLarge)
+            console.log('estamos en pausa');
+            cronoLargeButton.textContent = 'Iniciar'
+        } else {
+            if (!cronoLargeSarted || cronoSec3 <= 1) {
+                startLargeCrono()
+            } else resumeCrono()
+            clearInterval(crono1)
+            clearInterval(crono2)
+            titleText.textContent = 'Modo Descanso Largo'
+            cronoLargeButton.textContent = 'Pausar'
         }
      } else if (target.classList.contains('createWorks')) {
             createObjectDraggeableDiv.style.display = 'block'
@@ -130,9 +155,14 @@ document.onsubmit = function (event) {
         dragDiv() 
     } else {
         showCreateWell()
+        
         cronoSec2 = firstBreak.value
         cronoSec2.textContent = cronoSec2 + ':00'
-        cronoSec2 = cronoSec2 * 60
+        // cronoSec2 = cronoSec2 * 60
+
+        cronoSec3 = secondBreak.value
+        largeBreakTimeText.textContent = cronoSec3 + ':00'
+        // cronoSec2 = cronoSec2 * 60
     }
     
 }
@@ -213,7 +243,7 @@ document.addEventListener('animationend', function (event) {
 function startCrono() {
     // Converter the minutes in seconds.
     // crono1Seconds = 25 * 60
-    crono1Seconds = 10 * 1
+    crono1Seconds = 1 * 1
     cronoSarted = true
     crono1 = setInterval(() => {
         if (crono1Seconds >= 0) {
@@ -241,6 +271,26 @@ function startCronoPause() {
         }
     }, 1000);
 }
+function startLargeCrono() {
+    // cronoSec2 = 5 * 60
+    cronoSec3 = cronoSec3 * 60
+    cronoLargeSarted = true
+    cronoLargeSartedIsFinished = false
+    cronoLarge = setInterval(() => {
+        if (cronoSec3 >= 0) {
+            cronoSec3--
+            minutesLargeCrono = Math.floor(cronoSec3 / 60)
+            secondsLargeCrono2 = cronoSec3 % 60
+            largeBreakTimeText.textContent = minutesLargeCrono + ':' + secondsLargeCrono2 
+            console.log(cronoLargeSartedIsFinished);
+        }  else {
+            cronoSec3 = 25
+            cronoLargeActive = false
+            run = 0
+            cronoLargeSartedIsFinished = true
+        }
+    }, 1000);
+}
 /** If the crono is the pause one, restarHim. */
 function resumeCrono() {
     if (!cronoSarted) {
@@ -250,6 +300,15 @@ function resumeCrono() {
                 minutesCrono2 = Math.floor(cronoSec2 / 60)
                 secondsCrono2 = cronoSec2 % 60
                 crono2Text.textContent = minutesCrono2 + ":" + (secondsCrono2 < 10 ? "0" + secondsCrono2 : secondsCrono2)
+            }
+        }, 1000); // Reanudar el intervalo
+    } else if (cronoLargeActive) {
+        cronoLarge = setInterval(() => {
+            if (cronoSec3 >= 0) {
+                cronoSec3--
+                minutesLargeCrono = Math.floor(cronoSec3 / 60)
+                secondsLargeCrono2 = cronoSec3 % 60
+                largeBreakTimeText.textContent = minutesLargeCrono + ":" + (secondsLargeCrono2 < 10 ? "0" + secondsLargeCrono2 : secondsLargeCrono2)
             }
         }, 1000); // Reanudar el intervalo
     } else {
@@ -356,16 +415,21 @@ function pomodoroCompletedMessage(run, pomodoroMode) {
     else pomodoroName = 'Break Mode'
     switch (run) {
         case 1:
+            alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, primer ' + pomodoroName + ' completado.'
             break;
         case 2:
+            alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, segundo ' + pomodoroName + ' completado.'
             break;
         case 3:
+            alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, tercer ' + pomodoroName + ' completado.'
             break;
         case 4:
+            alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, cuarto ' + pomodoroName + ' completado, tienes acceso al modo pausa largo.'
+            cronoLargeActive = true
         break;
     }
     setTimeout(() => {

@@ -99,7 +99,24 @@ body {
     background-color: #7DA7CD; */
     transition: 0.3s;
 }
-.timer:hover {
+.largeBreakDiv {
+    top: 133px;
+    position: absolute;
+    left: 430px;
+}
+#largeBreakTitle {
+    margin-block: 60px;
+}
+.timer2 {
+    margin-left: 57px;
+    font-size: 122px;
+    border-radius: 150px;
+    width: 300px;
+    height: 300px;
+    background-color: #7DA7CD;
+    transition: 0.3s;
+}
+.timer:hover, .timer2:hover {
     cursor: pointer;
     transform: scale(1.03);
 
@@ -107,7 +124,16 @@ body {
 .timerText {
     margin-left: 10px;
     font-size: 120px;
-    margin-top: 68px;
+    margin-top: 54px;
+}
+.timerText2 {
+    padding-top: 49px;
+    margin-left: 10px;
+    font-size: 120px;
+}
+.cronoBreakButton {
+    margin-left: 50px;
+    margin-top: 42px;
 }
 .charge {
     margin-left: 59px;
@@ -117,7 +143,7 @@ body {
     /* background-color: #7DA7CD; */
     border: 2px solid black;
 }
-.startCrono {
+.startCrono , .startCronoLargeBreak{
     border: 0;
     font-size: 30px;
     border-radius: 12px;
