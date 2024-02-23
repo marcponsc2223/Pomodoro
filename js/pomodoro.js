@@ -1,3 +1,4 @@
+/** Variables. */
 let crono1
 let crono2
 let cronoLarge
@@ -11,7 +12,6 @@ let cronoLargeButton = document.getElementById('cronoLargeButton')
 let crono1Text = document.getElementById('timerText')
 let crono2Text = document.getElementById('contenido')
 let largeBreakTimeText = document.getElementById('largeBreakTimeText')
-// let draggableContainer = document.getElementById('draggableContainer')
 let draggableContainer = document.getElementsByClassName('draggableContainer')
 let draggableObjects
 let deleteTaskButtons
@@ -38,10 +38,7 @@ let obj
 let deletedTaskEvent
 let run = 0
 let animaitonRotatedEnded = true
-// let createdObjectTitle = document.getElementById('createdObjectTitle')
-// let createdObjectDesc = document.getElementById('createdObjectDesc')
 let checkBox = document.getElementsByClassName('btn-check')
-// let form = document.getElementById('form')
 let body = document.querySelector('body')
 createCronometreButton()
 let tarjs = document.getElementsByClassName('tarjetas')
@@ -49,6 +46,7 @@ if (animaitonRotatedEnded) {
     rotateCard()
 }
 
+/** Click Listener. */
 document.onclick = function (event) {
     let target = event.target
     if (target.classList.contains('startCrono') && cronoLargeSartedIsFinished) {
@@ -82,9 +80,6 @@ document.onclick = function (event) {
                 clearInterval(cronoLarge)
                 cronoButton.textContent = 'Pausar'
             }
-            // clearInterval(crono1)
-            // // startCronoPause(5)
-            // cronoButton.textContent = 'Pausar'
         }
      } else if (target.classList.contains('startCronoLargeBreak') && cronoLargeActive) {
         if (cronoLargeButton.textContent === 'Pausar') {
@@ -109,7 +104,6 @@ document.onclick = function (event) {
      } else if (target.classList.contains('deleteTask')) {
             target.parentNode.style.display = 'none'
             deletedTaskEvent.remove()
-            // target.classList.contains('deleteButton').remove()   
      } else if (target.classList.contains('exitIcon')) {
             hideSureMessage(target)
      } else if (target.classList.contains('settingsImg')) {
@@ -118,6 +112,7 @@ document.onclick = function (event) {
      
      
 };
+/** Hover listener. */
 document.onmouseover = function (event) {
     let target = event.target
     if (target.classList.contains('workMaker')) {
@@ -166,9 +161,26 @@ document.onsubmit = function (event) {
     }
     
 }
+/** Hover out listener. */
 workMakerDiv.onmouseleave = function () {
     buttonCreateTasks.style.animation = ''
 }
+/** Animation end Listener. */
+document.addEventListener('animationend', function (event) {
+    let target = event.target
+    if (target.classList.contains('tarjetas')) {
+        for (const tarj of tarjs) {
+            tarj.style.border = '0'  
+            tarj.style.animation = ''
+            animaitonRotatedEnded = true
+        }
+    } else {
+        if (breakMode) {
+            body.style.backgroundColor = bgColorGreen
+        } else body.style.backgroundColor = bgColorWhite
+        body.style.animation = ''
+    }
+})
 /** Create Cronometre Button.*/
 function createCronometreButton() {
     let divCronoButton = document.getElementById('divCrono')
@@ -219,30 +231,9 @@ function rotateCard() {
         })
     }
 }
-document.addEventListener('animationend', function (event) {
-    let target = event.target
-    if (target.classList.contains('tarjetas')) {
-        for (const tarj of tarjs) {
-            tarj.style.border = '0'  
-            tarj.style.animation = ''
-            animaitonRotatedEnded = true
-        }
-    } else {
-        if (breakMode) {
-            body.style.backgroundColor = bgColorGreen
-        } else body.style.backgroundColor = bgColorWhite
-        body.style.animation = ''
-    }
-})
-// body.addEventListener('animationend', function () {
-//     if (breakMode) {
-//         body.style.backgroundColor = bgColorGreen
-//     } else body.style.backgroundColor = bgColorWhite
-// })
 /** Make the counters.*/
 function startCrono() {
     // Converter the minutes in seconds.
-    // crono1Seconds = 25 * 60
     crono1Seconds = 1 * 1
     cronoSarted = true
     crono1 = setInterval(() => {
@@ -272,7 +263,6 @@ function startCronoPause() {
     }, 1000);
 }
 function startLargeCrono() {
-    // cronoSec2 = 5 * 60
     cronoSec3 = cronoSec3 * 60
     cronoLargeSarted = true
     cronoLargeSartedIsFinished = false
@@ -322,24 +312,21 @@ function resumeCrono() {
         }, 1000); // Reanudar el intervalo
     }
 }
-/** Make the draggable div objects */
+/** Make the draggable div objects. */
 function allowDrop(ev) {
     ev.target.classList.add('feedme')
     ev.preventDefault()
 }
-  
 function removeDrop(ev) {
     ev.target.classList.remove('feedme');
     ev.preventDefault();
 }
-  
 function drag(ev) {
     element = ev.target
     element.parentNode.classList.add('feedme')
     element.classList.add('dragging')
 
-}
-  
+} 
 function drop(ev) {
     ev.preventDefault()
     ev.target.classList.remove('feedme')
@@ -349,7 +336,7 @@ function drop(ev) {
     }
     element = null
 }
-
+/** Drag and drop Function. */
 for (const dc of draggableContainer) {
     dc.ondrop = function (event){
         drop(event)
@@ -371,6 +358,7 @@ function dragDiv() {
         }
     } 
 }
+/** Comprove if the task is completed or not. */
 function completedTaskComprovation() {
     for (const draggO of draggableObjects) {
         if (draggO.parentNode.classList.contains('completedTasks')) {
@@ -437,7 +425,5 @@ function pomodoroCompletedMessage(run, pomodoroMode) {
     }, 4000);
     clearInterval(crono1)
     cronoButton.textContent = 'Iniciar'
-    // cronoButton.textContent = 'Iniciar'
-    // crono1Seconds = 25 * 60
 
 }
