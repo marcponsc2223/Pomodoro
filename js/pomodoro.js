@@ -131,11 +131,18 @@ document.onsubmit = function (event) {
         let objTitle = document.createElement('h1')
         let objDesc = document.createElement('p')
         let deleteButton = document.createElement('div')
+        let dateText = document.createElement('p')
+        let hourText = document.createElement('p')
+        let dateCreated = new Date()
         deleteButton.classList.add('deleteButton')
         draggableContainerPendents.appendChild(obj)
         obj.appendChild(objTitle)
         obj.appendChild(objDesc)
         obj.appendChild(deleteButton)
+        obj.appendChild(dateText)
+        obj.appendChild(hourText)
+        dateText.textContent = dateCreated.getDate() + '/' + dateCreated.getMonth() + '/' + dateCreated.getFullYear()
+        hourText.textContent = dateCreated.getHours() + ':' + dateCreated.getMinutes()
         obj.classList.add('draggObject')
         obj.draggable = true
         for (const cb of checkBox) {
