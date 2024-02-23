@@ -142,7 +142,7 @@ document.onsubmit = function (event) {
         obj.appendChild(dateText)
         obj.appendChild(hourText)
         dateText.textContent = dateCreated.getDate() + '/' + dateCreated.getMonth() + '/' + dateCreated.getFullYear()
-        hourText.textContent = dateCreated.getHours() + ':' + dateCreated.getMinutes()
+        hourText.textContent = dateCreated.toLocaleTimeString()
         obj.classList.add('draggObject')
         obj.draggable = true
         for (const cb of checkBox) {
