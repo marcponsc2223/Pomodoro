@@ -1,17 +1,15 @@
 /** Variables. */
+let m = 5
+let s = 0
+let p = false
 let crono1
 let crono2
 let cronoLarge
 let cronoSarted = false
 let crono2IsStarted = false
-let cronoLargeSarted = false
-let cronoLargeSartedIsFinished = true
-let cronoLargeActive = false
 let cronoButton = document.createElement('button')
-let cronoLargeButton = document.getElementById('cronoLargeButton')
 let crono1Text = document.getElementById('timerText')
 let crono2Text = document.getElementById('contenido')
-let largeBreakTimeText = document.getElementById('largeBreakTimeText')
 let draggableContainer = document.getElementsByClassName('draggableContainer')
 let draggableObjects
 let deleteTaskButtons
@@ -49,19 +47,28 @@ if (animaitonRotatedEnded) {
 /** Click Listener. */
 document.onclick = function (event) {
     let target = event.target
-    if (target.classList.contains('startCrono') && cronoLargeSartedIsFinished) {
+    if (target.classList.contains('startCrono')) {
+        // console.log(p);
+        
         if (!breakMode) {
             if (cronoButton.textContent === 'Pausar') {
-                pauseMode = true
-                clearInterval(crono1)
+                // pauseMode = true
+                // clearInterval(crono1)
+                p = true
                 console.log('estamos en pausa');
                 cronoButton.textContent = 'Iniciar'
+                console.log('p = ' + p);
+                
             } else {
-                if (!cronoSarted || crono1Seconds <= 1) {
+                // !cronoSarted
+                if (!p && crono1Seconds <= 1) {
                     startCrono()
+                    p = false
+                    console.log('ahora p es falso');
+                    
                 } else resumeCrono()
                 clearInterval(crono2)
-                clearInterval(cronoLarge)
+                // clearInterval(cronoLarge)
                 titleText.textContent = 'Modo Cronometro'
                 cronoButton.textContent = 'Pausar'
             }
@@ -77,24 +84,9 @@ document.onclick = function (event) {
                     startCronoPause()
                 } else resumeCrono()
                 clearInterval(crono1)
-                clearInterval(cronoLarge)
+            // clearInterval(cronoLarge)
                 cronoButton.textContent = 'Pausar'
             }
-        }
-     } else if (target.classList.contains('startCronoLargeBreak') && cronoLargeActive) {
-        if (cronoLargeButton.textContent === 'Pausar') {
-            pauseMode = true
-            clearInterval(cronoLarge)
-            console.log('estamos en pausa');
-            cronoLargeButton.textContent = 'Iniciar'
-        } else {
-            if (!cronoLargeSarted || cronoSec3 <= 1) {
-                startLargeCrono()
-            } else resumeCrono()
-            clearInterval(crono1)
-            clearInterval(crono2)
-            titleText.textContent = 'Modo Descanso Largo'
-            cronoLargeButton.textContent = 'Pausar'
         }
      } else if (target.classList.contains('createWorks')) {
             createObjectDraggeableDiv.style.display = 'block'
@@ -210,7 +202,7 @@ function rotateCard() {
                     titleText.textContent = 'Modo Descanso';
                     body.style.animation = 'changeBG 1s';
                     clearInterval(crono1);
-                    cronoSarted = false;
+                    // cronoSarted = false;
                     cronoButton.textContent = 'Iniciar';
                 } else if (tarjTransform === 'none') {
                     // Display error message
@@ -230,9 +222,9 @@ function rotateCard() {
                     }
                     cronoButton.textContent = 'Iniciar';
                     clearInterval(crono2);
-                    cronoSarted = true;
+                    // cronoSarted = true;
                 }
-                console.log(breakMode);
+                // console.log(breakMode);
             }
             
         })
@@ -241,25 +233,29 @@ function rotateCard() {
 /** Make the counters.*/
 function startCrono() {
     // Converter the minutes in seconds.
-    crono1Seconds = 1 * 1
-    cronoSarted = true
+    //const segundosPorMinuto = 1000 * 60 / 1000;
+    // 300
+    crono1Seconds = 10
+    // cronoSarted = true
     crono1 = setInterval(() => {
-        if (crono1Seconds >= 0) {
-            crono1Seconds--
-            minutes = Math.floor(crono1Seconds / 60)
-            seconds = crono1Seconds % 60
-            crono1Text.textContent = minutes + ':' + seconds  
+        if (crono1Seconds > 0) {
+        crono1Seconds--
+        minutes = Math.floor(crono1Seconds / 60)
+        seconds = crono1Seconds % 60
+        crono1Text.textContent = minutes + ':' + seconds 
+        
         } else {
             run++
             pomodoroCompletedMessage(run, true)
         }
+    
     }, 1000);  
 }
 function startCronoPause() {
-    // cronoSec2 = 5 * 60
+    cronoSec2 = 10
     crono2IsStarted = true
     crono2 = setInterval(() => {
-        if (cronoSec2 >= 0) {
+        if (cronoSec2 > 0) {
             cronoSec2--
             minutesCrono2 = Math.floor(cronoSec2 / 60)
             secondsCrono2 = cronoSec2 % 60
@@ -269,49 +265,27 @@ function startCronoPause() {
         }
     }, 1000);
 }
-function startLargeCrono() {
-    cronoSec3 = cronoSec3 * 60
-    cronoLargeSarted = true
-    cronoLargeSartedIsFinished = false
-    cronoLarge = setInterval(() => {
-        if (cronoSec3 >= 0) {
-            cronoSec3--
-            minutesLargeCrono = Math.floor(cronoSec3 / 60)
-            secondsLargeCrono2 = cronoSec3 % 60
-            largeBreakTimeText.textContent = minutesLargeCrono + ':' + secondsLargeCrono2 
-            console.log(cronoLargeSartedIsFinished);
-        }  else {
-            cronoSec3 = 25
-            cronoLargeActive = false
-            run = 0
-            cronoLargeSartedIsFinished = true
-        }
-    }, 1000);
-}
+// function time(){
+//     minutes = 
+//     return
+// }
 /** If the crono is the pause one, restarHim. */
 function resumeCrono() {
     if (!cronoSarted) {
         crono2 = setInterval(() => {
-            if (cronoSec2 >= 0) {
+            if (cronoSec2 > 0) {
                 cronoSec2--
                 minutesCrono2 = Math.floor(cronoSec2 / 60)
                 secondsCrono2 = cronoSec2 % 60
                 crono2Text.textContent = minutesCrono2 + ":" + (secondsCrono2 < 10 ? "0" + secondsCrono2 : secondsCrono2)
             }
         }, 1000); // Reanudar el intervalo
-    } else if (cronoLargeActive) {
-        cronoLarge = setInterval(() => {
-            if (cronoSec3 >= 0) {
-                cronoSec3--
-                minutesLargeCrono = Math.floor(cronoSec3 / 60)
-                secondsLargeCrono2 = cronoSec3 % 60
-                largeBreakTimeText.textContent = minutesLargeCrono + ":" + (secondsLargeCrono2 < 10 ? "0" + secondsLargeCrono2 : secondsLargeCrono2)
-            }
-        }, 1000); // Reanudar el intervalo
     } else {
         crono1 = setInterval(() => {
-            if (crono1Seconds >= 0) {
+            if (crono1Seconds > 0) {
                 crono1Seconds--
+            
+
                 minutes = Math.floor(crono1Seconds / 60)
                 seconds = crono1Seconds % 60
                 crono1Text.textContent = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds)
@@ -410,27 +384,29 @@ function pomodoroCompletedMessage(run, pomodoroMode) {
     else pomodoroName = 'Break Mode'
     switch (run) {
         case 1:
-            alarm.play()
+            // alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, primer ' + pomodoroName + ' completado.'
             break;
         case 2:
-            alarm.play()
+            // alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, segundo ' + pomodoroName + ' completado.'
             break;
         case 3:
-            alarm.play()
+            // alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, tercer ' + pomodoroName + ' completado.'
             break;
         case 4:
-            alarm.play()
+            // alarm.play()
             pomodoroCompletMessage.textContent = 'Enorabuena, cuarto ' + pomodoroName + ' completado, tienes acceso al modo pausa largo.'
-            cronoLargeActive = true
+            // cronoLargeActive = true
         break;
     }
     setTimeout(() => {
         divMessage.style.display = 'none'
     }, 4000);
     clearInterval(crono1)
+    alarm.play()
     cronoButton.textContent = 'Iniciar'
-
+    crono1Text.textContent = m + ':' + s + '0' 
+    crono2Text.textContent = m + ':' + s + '0' 
 }
