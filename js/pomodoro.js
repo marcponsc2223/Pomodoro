@@ -23,7 +23,7 @@ let minutesCrono2
 let secondsCrono2
 let minutesLargeCrono
 let secondsLargeCrono2
-let crono1Seconds
+let crono1Seconds = 5
 let cronoSec2 = 5
 let cronoSec3 = 25
 let element = null
@@ -53,15 +53,16 @@ document.onclick = function (event) {
         if (!breakMode) {
             if (cronoButton.textContent === 'Pausar') {
                 // pauseMode = true
-                // clearInterval(crono1)
-                p = true
+                clearInterval(crono1)
+                cronoSarted = false
                 console.log('estamos en pausa');
                 cronoButton.textContent = 'Iniciar'
                 console.log('p = ' + p);
                 
             } else {
                 // !cronoSarted
-                if (!p && crono1Seconds <= 1) {
+                if (!cronoSarted && crono1Seconds >= 1) {
+                    cronoSarted = true
                     startCrono()
                     p = false
                     console.log('ahora p es falso');
@@ -235,7 +236,7 @@ function startCrono() {
     // Converter the minutes in seconds.
     //const segundosPorMinuto = 1000 * 60 / 1000;
     // 300
-    crono1Seconds = 10
+    // crono1Seconds = 10
     // cronoSarted = true
     crono1 = setInterval(() => {
         if (crono1Seconds > 0) {
@@ -406,6 +407,9 @@ function pomodoroCompletedMessage(run, pomodoroMode) {
     }, 4000);
     clearInterval(crono1)
     alarm.play()
+    if (crono1Seconds <= 0) {
+        crono1Seconds = 5
+    }
     cronoButton.textContent = 'Iniciar'
     crono1Text.textContent = m + ':' + s + '0' 
     crono2Text.textContent = m + ':' + s + '0' 
